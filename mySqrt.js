@@ -41,10 +41,13 @@ function mySqrt1(x) {
 		// 所以left + Math.floor((right - left) / 2): 就left 到 right 之间的中心点
 		pivot = left + Math.floor((right - left) / 2) ;
 		num = pivot * pivot;
+		// 去掉右半部分的数
 		if (num > x) right = pivot - 1;
+		// 去掉左半部分的数
       	else if (num < x) left = pivot + 1;
       	else return pivot;
 	}
+	// 因为 left > rigt时才跳出循环，此时的left已经是在我们的判断范围之外，只有right符合 
 	return right;
 }
 
@@ -61,11 +64,15 @@ function mySqrt2(x) {
 	return right * right > x ? left : right;
 }
 
-console.log( mySqrt2(15) );
-console.log( mySqrt2(9) );
+// console.log( mySqrt2(15) );
+// console.log( mySqrt2(9) );
 
+// 位移动操作   
+// >> 右移动   << 左移动
+// eg: 5 >> 2
+// 5  ===> 二进制：0000 0101
+// 右移动 2 为：   0000 0001 ==> 十进制： 1
 
 
 // 牛顿法：（暂时没理解）
-
 
