@@ -48,9 +48,23 @@ function mySqrt1(x) {
 	return right;
 }
 
-console.log( mySqrt1(15) );
-console.log( mySqrt1(9) );
-console.log( mySqrt1(7) );
+// console.log( mySqrt1(15) );
+// console.log( mySqrt1(9) );
+// console.log( mySqrt1(7) );
+
+// 递归 + 位移动操作
+function mySqrt2(x) {
+	if(x == null) return;
+	if(x < 2) return x;
+	var left = mySqrt2(x >> 2) << 1;
+	var right = left + 1;
+	return right * right > x ? left : right;
+}
+
+console.log( mySqrt2(15) );
+console.log( mySqrt2(9) );
+console.log( mySqrt2(7) );
+
 
 // 牛顿法：（暂时没理解）
 
