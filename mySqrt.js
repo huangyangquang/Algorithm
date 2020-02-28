@@ -63,7 +63,7 @@ function mySqrt2(x) {
 
 console.log( mySqrt2(15) );
 console.log( mySqrt2(9) );
-console.log( mySqrt2(7) );
+
 
 
 // 牛顿法：（暂时没理解）
