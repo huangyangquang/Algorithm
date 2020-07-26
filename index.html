@@ -2,10 +2,41 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>index</title>
+	<title>Document</title>
 </head>
 <body>
-	
-	<script src="./index.js"></script>
+	<div id="app">
+		{{a}}
+		<my-cmp :ceshi="obj"/>
+	</div>
+
+	<script src="https://cdn.bootcss.com/vue/2.6.11/vue.min.js"></script>
+	<script>
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				a: ['hdau', {name: 'mskal'}],
+				obj: {
+					name: '我的名字',
+					sex: ['数组', {name: 'mskal'}]
+				}
+			},
+			components: {
+				myCmp: {
+					props: ['ceshi'],
+					data() {
+						return {
+							content: 'uouoijil'
+						}
+					},
+					template: `<div>{{ content }} 
+							{{ceshi}} 
+							{{ceshi.name}}
+							{{ceshi.sex[0]}}
+						</div>`,
+				}
+			}
+		})
+	</script>
 </body>
 </html>

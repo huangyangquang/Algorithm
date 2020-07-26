@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>虚拟dom</title>
+</head>
+<body>
+	<div class="app" id="app"></div>
+	
+	<script>
+		
+		// 创建虚拟dom VNode
+		function Element(tagName, props, children) {
+			this.tagName = tagName;     
+			this.props = props;     
+			this.children = children;
+		} 
+
+		// 虚拟dom 渲染成 真实dom
+		Element.prototype.render = function() {
+			let el = document.createElement(this.tagName),
+				props = this.props; 
+
+			for (var propName in props) {
+				propValue = props[propName]
+				el.setAttribute(propName, propValue)
+			} 
+
+
+			this.children.forEach((child) => {
+				var childEl = (child instanceof Element)
+					? child.render()          
+					: document.createTextNode(child); 
+				el.appendChild(childEl)    
+			})    
+			return el 
+		}
+
+		var ul = new Element('ul', {id: 'list'}, [
+			new Element('li', {class: 'item'}, ["Item 1"]),
+			new Element('li', {class: 'item'}, ["Item 1"]),
+			new Element('li', {class: 'item'}, ["Item 1"])
+		])
+
+		ulRoot = ul.render();
+
+		// 插入到页面
+		app.appendChild(ulRoot); 
+
+		// diff算法  
+		function diff(oldTree, newTree) {     
+			var index = 0   // 当前节点的标志     
+			var patches = {} // 记录每个节点差异的地方     
+			dfsWalk(oldTree, newTree, index, patches)     
+			return patches 
+		} 
+
+		function dfsWalk(oldNode, newNode, index, patches) {     
+			// 对比 newNode 和 oldNode 的差异地方进行记录     
+			// patches[index] = [...] 
+
+			diffChildren(oldNode.children, newNode.children, index, patches) 
+		} 
+
+		function diffChildren(oldChildren, newChildren, index, patches) {     
+			let leftNode = null     
+			var currentNodeIndex = index     
+			oldChildren.forEach((child, i) => {         
+				var newChild = newChildren[i]         
+				currentNodeIndex =  (leftNode && leftNode.count) // 计算节点的 标记                 
+					? currentNodeIndex + leftNode.count + 1                 
+					: currentNodeIndex + 1         
+				dfsWalk(child, newChild, currentNodeIndex, patches) // 遍历子节 点         
+				leftNode = child     
+			}) 
+		} 
+
+		function patch(node, patches) {     
+			var walker = {index: 0} // 记录当前节点的标志     
+			dfsWalk(node, walker, patches) 
+		} 
+
+		function dfsWalk(node, walker, patches) {
+			var currentPatches = patches[walker.index] // 这是当前节点的差异 
+
+			var len = node.childNodes ? node.childNodes.length : 0 
+
+			for (var i = 0; i < len; i++) { // 深度遍历子节点         
+				var child = node.childNodes[i]         
+				walker.index++         
+				dfsWalk(child, walker, patches)    
+			} 
+
+			if (currentPatches) {         
+				applyPatches(node, currentPatches) // 对当前节点进行 DOM 操作     
+			} 
+		} 
+
+		// 将差异的部分应用到 DOM 中 
+		function applyPatches(node, currentPatches) { 
+			currentPatches.forEach((currentPatch) => {         
+			switch (currentPatch.type) {             
+				case REPLACE:                
+					var newNode = (typeof currentPatch.node === 'string')    
+						? document.createTextNode(currentPatch.node)        
+						: currentPatch.node.render()    
+					node.parentNode.replaceChild(newNode, node)         
+					break;          
+				case REORDER:                 
+					reorderChldren(node, currentPatch.moves)                 
+					break;             
+				case PROPS:                 
+					setProps(node, currentPatch.props)                 
+					break;             
+				case TEXT:                 
+					if (node.textContent) {                     
+						node.textContent = currentPatch.content                 
+					} else {                     
+						node.nodeValue = currentPatch.content                 
+					}                 
+					break;             
+				default:                 
+					throw new Error('Unknown patch type ' + currentPatch.type)         
+				}     
+			}) 
+		} 
+
+	</script>
+</body>
+</html>
