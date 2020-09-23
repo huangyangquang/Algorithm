@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		.demo{
+		    margin-bottom: 20px;
+		    border: 1px solid #ebedf0;
+		    border-radius: 2px;
+		    padding: 10px;
+		}
+		.demo div{
+		    margin-bottom: 10px;
+		    font-size: 14px;
+		}
+
+		.pagination{
+		    box-sizing: border-box;
+		    margin: 0;
+		    padding: 0;
+		    font-size: 14px;
+		    line-height: 1.5;
+		    list-style: none;
+		    display: inline-block;
+		}
+		.pagination.hide{
+		    display: none;
+		}
+		.pagination li{
+		    position: relative;
+		    display: inline-block;
+		    float: left;
+		    height: 32px;
+		    margin: 0;
+		    padding: 0 15px;
+		    line-height: 30px;
+		    background: #fff;
+		    border: 1px solid #d9d9d9;
+		    border-top-width: 1.02px;
+		    border-left: 0;
+		    cursor: pointer;
+		    transition: color 0.3s, border-color 0.3s;
+		}
+		.pagination li:first-child{
+		    border-left: 1px solid #d9d9d9;
+		    border-radius: 4px 0 0 4px;
+		}
+		.pagination li:last-child{
+		    border-radius: 0 4px 4px 0;
+		}
+		.pagination li:first-child{
+		    box-shadow: none !important;
+		}
+		.pagination li.current{
+		    border-color: #1890ff;
+		    color: #1890ff;
+		    border-left: 1px solid #1890ff;
+		}
+		.pagination li.current:not(:first-child) {
+		    margin-left: -1px;
+		}
+	</style>
+</head>
+<body>
+	<div>
+    <div id="jsContainer">
+        <ul class="pagination">
+            <li>首页</li>
+            <li>8</li>
+            <li>9</li>
+            <li class="current">10</li>
+            <li>11</li>
+            <li>12</li>
+            <li>末页</li>
+        </ul>
+    </div>
+</body>
+<script type="text/javascript">
+	function Pagination(container, total, current) {
+	    this.total = total;
+	    this.current = current;
+	    this.html = html;
+	    this.val = val;
+	    this.el = document.getElementsByClassName('pagination')[0]; //TODO: 创建分页组件根节点
+	    if (!this.el) return;
+
+	    this.el.innerHTML = this.html();
+	    container.appendChild(this.el);
+	    this.el.className = this.total <= 1 ? 'pagination hide' : 'pagination'; //TODO: 判断是否需要隐藏当前元素
+
+	    function html() {
+	    	var self = this;
+	    	console.log(self.total <= 1)
+	        if (self.total <= 1) {
+	            return '';
+	        }
+	        var str = "";
+	        if (self.total <= 5) {
+	            for(var i = 0; i < self.total; i ++) {
+	                if(i + 1 === self.current) {
+	                    str += '<li class="current">' + (i + 1) + '</li>';
+	                } else {
+	                    str += '<li>' + (i + 1) + '</li>';
+	                }
+	                
+	            }
+	        } else {
+	            var j = 0;
+	            if(self.current > self.total - 5) {
+	               str += '<li>首页</li>'
+	            
+	            } else {
+	                
+	            }
+	            
+	            for(var i = 0; i < 5; i ++) {
+	            	if(self.current < 5) {
+	            		if(i + 1 == self.current) {
+	            			str += '<li class="current">' + (i + 1) + '</li>';
+	            		} else {
+	            			str += '<li>' + (i + 1) + '</li>';
+	            		}
+	            	} else if(self.current > self.total - 5) {
+	            		if(self.total - i == self.current) {
+	            			str = '<li class="current">' + (self.total - i) + '</li>' + str;
+	            		} else {
+	            			str = '<li>' + (self.total - i) + '</li>' + str;
+	            		}
+
+	            	} else {
+	            		if(i === 2) {
+		                    str += '<li class="current">' + self.current + '</li>';
+		                } else {
+		                    str += '<li>' + (self.current - 2 + i) + '</li>';
+		                }
+		                console.log(str);
+	            	}
+	                
+	            }
+
+	            if(self.current < 5) {
+	            	str += ' <li>末页</li>'
+	            } else {
+	                
+	            }
+	        }
+	        //TODO: 生成组件的内部html字符串
+	        return str;
+	    }
+
+	    function val(current) {
+	        if (arguments.length === 0) return this.current;
+	        if (current < 1 || current > this.total || current === this.current) return;
+	        this.current = current;
+	        this.el.innerHTML = this.html();
+	    };
+	}
+	Pagination(jsContainer, 10, 4)
+
+	// 缺少部分临界值判断
+</script>
+</html>

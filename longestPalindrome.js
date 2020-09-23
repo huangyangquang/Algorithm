@@ -10,7 +10,7 @@
 // 输入: "cbbd"
 // 输出: "bb"
 
-// 方法： 中心扩展法
+// 方法： 中心扩展法 + 双指针
 function longest(str) {
 	if(str == null || str.length < 1) return '';
 	var strat = 0;
@@ -37,8 +37,69 @@ function center(str, left, right) {
 	return r - l - 1; // 为什么 -1？？？
 }
 
-var newStr = longest('aabbbbaalaa');
+var newStr = longest('aabbbbhaalaa');
 console.log(newStr);
+
+
+// 2020.08.07(全对)
+function longest_2(str) {
+	if(str === null) return '';
+	let len = str.length,
+		start = 0,
+		end = 0;
+	for(let i = 0; i < len; i ++) {
+		let len1 = center_2(str, i, i),
+			len2 = center_2(str, i, i + 1),
+			max = Math.max(len1, len2);
+		if(max > end - start) {
+			start = i - Math.floor((max - 1) / 2);
+			end = i + Math.floor(max / 2);
+		}
+	}
+	return str.substring(start, end + 1);
+}
+
+function center_2(str, left, right) {
+	let l = left,
+		r = right;
+	while(l >= 0 && r < str.length && str.charAt(l) === str.charAt(r)) {
+		l --;
+		r ++;
+	}
+	return r - l - 1;
+}
+console.log( longest_2('aabbbbhaalaabbbbbbbbbbbaabbb') );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -73,8 +134,8 @@ function center(str, left, right) {
 	return r - l - 1;
 }
 
-var long = longest('aahuauhbs');
-console.log(long);
+// var long = longest('aahuauhbs');
+// console.log(long);
 
 
 
@@ -82,15 +143,34 @@ console.log(long);
 
 
 
+// 2020.08.05(默写 对了80%)
+function longestText(str) {
+	if(str == null) return '';
+	let len = str.length,
+		start = 0,
+		end = 0;
+	for(let i = 0; i < len; i ++) {
+		let len1 = centerPoint(str, i, i),
+			len2 = centerPoint(str, i, i + 1),
+			maxLen = Math.max(len1, len2);
+		if(maxLen > end - start) {
+			start = i - Math.floor((maxLen - 1) / 2);
+			end = i + Math.floor(maxLen / 2);
+		}
+	}
+	return str.substring(start, end + 1);
+}
 
-
-
-
-
-
-
-
-
+function centerPoint(str, left, right) {
+	let l = left,
+		r = right;
+	while(l >= 0 && r < str.length && str.charAt(l) === str.charAt(r)) {
+		l --;
+		r ++;
+	}
+	return r - l - 1;
+}
+// console.log( longestText("abcdcba") );
 
 
 

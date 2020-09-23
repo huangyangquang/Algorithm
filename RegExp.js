@@ -198,3 +198,6 @@
 	// // 由于在替换文本里$有了特殊的含义，所以我们如果想要是用$这个字符的话，需要写成$$，
 	// var newStr = str.replace(reg, '$$');
 	// console.log(newStr);
+
+
+
