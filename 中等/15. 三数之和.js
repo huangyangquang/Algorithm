@@ -12,6 +12,7 @@
 //   [-1, -1, 2]
 // ]
 
+// 排序 + 双指针
 var threeSum = function(nums) {
 	if(nums === null || nums.length < 3) return [];
 
@@ -25,8 +26,8 @@ var threeSum = function(nums) {
 
 		if(i > 0 && nums[i] === nums[i - 1]) continue; // 去重
 
-		var L = i + 1,
-			R = len - 1;
+		var L = i + 1, // 左指针
+			R = len - 1; // 右指针
 
 		while(L < R) {
 			var sum = nums[i] + nums[L] + nums[R]; // 求和
