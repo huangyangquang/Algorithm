@@ -52,6 +52,18 @@ function _rob(arr) {
 	}
 	return curMax;
 }
-console.log( _rob([1,2,3,1]) );
-console.log( _rob([2,7,9,3,1]) );
-console.log( _rob([1,8,3,4,5]) );
+
+// 2020.10.10
+function myrob(arr) {
+	if(arr === null || arr.length === 0) return 0;
+	var cur = 0,
+		pre = 0,
+		len = arr.length;
+	for(var i = 0; i < len; i ++) {
+		var temp = cur;
+		cur = Math.max(cur, pre + arr[i]);
+		pre = temp;
+	}
+	return cur;
+}
+
