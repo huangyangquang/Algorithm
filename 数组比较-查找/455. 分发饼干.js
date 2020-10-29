@@ -53,54 +53,6 @@ console.log( findContentChildren([1,2], [1,2,3]) )
 
 
 
-// 2020.10.28
-function find(kids, cookies) {
-	kids.sort((a, b) => (a - b))
-	cookies.sort((a, b) => (a - b))
-
-	var k = 0,
-		c = 0,
-		sum = 0;
-
-	while(k <= kids.length && c <= cookies.length) {
-		if(cookies[c] >= kids[k]) {
-			c ++
-			k ++
-			sum ++
-		} else {
-			c ++
-		}
-	}
-
-	return sum;
-}
-console.log( find([1,2,3], [1,1]) )
-console.log( find([1,2], [1,2,3]) )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
