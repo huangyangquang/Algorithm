@@ -20,6 +20,7 @@
  * @return {number}
  */
 var arr = [-2,1,-3,4,-1,2,1,-5,4];
+
 var maxSubArray = function(nums) {
     let ans = nums[0]; // 结果初始化
     let sum = 0; // 初始化是无增益结果的
@@ -42,3 +43,61 @@ console.log( maxSubArray(arr) );
 
 
 // 分治法： 暂时不了解
+
+
+
+
+
+
+
+
+
+
+// 2020.10.16
+function findMax(arr) {
+    if(arr === null || arr.length == 0) return;
+    var max = 0,
+        res = arr[0],
+        len = arr.length;
+
+    for(var i = 1; i < len; i ++) {
+        if(max > 0) {
+            max = max + arr[i]
+        } else {
+            max = arr[i]
+        }
+        res = Math.max(max, res);
+    }
+
+    return res;
+}
+console.log( findMax([-2,1,-3,4,-1,2,1,-5,4]) );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
