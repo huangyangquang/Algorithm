@@ -25,7 +25,69 @@
 // 所以你应该输出2.
 
 
+// 2021.05.06 （新思路）
+// 排序 + 贪心算法：
+// 《算法导论》： 
+// 贪心算法（greedy algorithm）就是这样的算法，它在每一步都做出当时看起来最佳的选择。
+// 也就是说，它总是做出局部最优的选择，寄希望这样的选择能导致全局最优解。
+function cookieNew (kids, cookies) {
+	if(kids === null || cookies === null) return
 
+	kids.sort((a, b) => {
+		return a - b
+	})
+	
+	cookies.sort((a, b) => {
+		return a - b
+	})
+
+	let num = 0
+
+	cookies.forEach(cookie => {
+		if(cookie >= kids[num]) {
+			num ++
+		}
+	})
+
+	return num
+}
+console.log( cookieNew([1,2,3], [1,1]) )
+console.log( cookieNew([1,2], [1,2,3]) )
+
+
+// 2021.05.06
+function cookie(kids, cookies) {
+	if(kids === null || cookies === null) return
+
+	kids.sort((a, b) => {
+		return a - b
+	})
+	
+	cookies.sort((a, b) => {
+		return a - b
+	})
+	
+	let sum = 0
+	let k = 0
+	let c = 0
+
+	while(k <= kids.length && c <= cookies.length) {
+		if(kids[k] <= cookies[c]) {
+			sum ++
+			c ++
+			k ++
+		} else {
+			c ++
+		}
+	} 
+	
+	return sum
+}
+console.log( cookie([1,2,3], [1,1]) )
+console.log( cookie([1,2], [1,2,3]) )
+
+
+// 第一版
 function findContentChildren(kids, cookies) {
 	if(kids === null || cookies === null) return;
 
