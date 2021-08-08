@@ -23,6 +23,7 @@
  * @param {string} s
  * @return {string}
  */
+// 中心扩展法：
  var longestPalindrome = function(s) {
     var len = s.length
     var res = ''
