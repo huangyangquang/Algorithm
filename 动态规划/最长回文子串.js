@@ -23,6 +23,7 @@
  * @param {string} s
  * @return {string}
  */
+// 时间复杂度是 O(n^2)
  var longestPalindrome1 = function (s) {
     if (s === null) return '';
 
@@ -36,19 +37,19 @@
         tempArr[i] = new Array(len)
     }
 
-    for (var j = 0; j < len; j ++) { // 长
-        for (var i = 0; i <= j; i ++) { // 短
+    for (var j = 0; j < len; j ++) {
+        for (var i = 0; i <= j; i ++) {
             if (s[j] !== s[i]) {
                 tempArr[i][j] = false
             } else {
 
-                if (j - i < 2) {
+                if (j - i < 2) { // 当两个值是相邻 或者是 同一个值时
                     tempArr[i][j] = true
-                } else {
+                } else { // 或者 如果目前的子串成立，必须时这个子串里边的子串也处理，比如：'abbba'是子串， 那么'bbb' 也必须是子串；'bbb'是子串, 'b'也必须是子串
                     tempArr[i][j] = tempArr[i + 1][j - 1]
                 }
 
-                if (tempArr[i][j] === true && j - i + 1 >= mLen) {
+                if (tempArr[i][j] === true && j - i + 1 >= mLen) { // 更新 最长回文子串的起始点 和 长度
                     mLen = j - i + 1
                     begin = i
                 }
